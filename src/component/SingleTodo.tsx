@@ -40,27 +40,26 @@ const SingleTodo: React.FC<Props> = ({ todo, todos, setTodos, index }) => {
 
   return (
     <Draggable draggableId={todo.id.toString()} index={index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <form
-          className="todos__single"
           onSubmit={(e) => handleEdit(e, todo.id)}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
+          className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
         >
           {edit ? (
             <input
-              ref={inputRef}
               value={editTodo}
               onChange={(e) => setEditTodo(e.target.value)}
               className="todos__single--text"
+              ref={inputRef}
             />
           ) : todo.isDone ? (
             <s className="todos__single--text">{todo.todo}</s>
           ) : (
             <span className="todos__single--text">{todo.todo}</span>
           )}
-
           <div>
             <span
               className="icon"
